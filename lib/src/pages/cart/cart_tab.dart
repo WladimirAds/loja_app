@@ -3,6 +3,7 @@ import 'package:loja_app/src/models/cart_item_model.dart';
 import 'package:loja_app/src/pages/cart/components/cart_tile.dart';
 import 'package:loja_app/src/pages/commom_widgets/payment_dialog.dart';
 import 'package:loja_app/src/services/utils_services.dart';
+// ignore: library_prefixes
 import 'package:loja_app/src/config/app_data.dart' as appData;
 
 class CartTab extends StatefulWidget {

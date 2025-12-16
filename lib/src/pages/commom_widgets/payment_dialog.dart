@@ -8,7 +8,7 @@ import 'package:loja_app/src/models/order_model.dart';
 class PaymentDialog extends StatelessWidget {
   final OrderModel order;
   final UtilsServices utilsServices = UtilsServices();
-  PaymentDialog({Key? key, required this.order}) : super(key: key);
+  PaymentDialog({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {

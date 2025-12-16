@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_app/src/pages/commom_widgets/custom_text_field.dart';
+// ignore: library_prefixes
 import 'package:loja_app/src/config/app_data.dart' as appData;
 
 class ProfileTab extends StatefulWidget {

@@ -5,6 +5,7 @@ import 'package:loja_app/src/config/custom_colors.dart';
 import 'package:loja_app/src/pages/commom_widgets/app_name_widget.dart';
 import 'package:loja_app/src/pages/commom_widgets/custom_shimmer.dart';
 import 'package:loja_app/src/pages/home/components/category_tile.dart';
+// ignore: library_prefixes
 import 'package:loja_app/src/config/app_data.dart' as appData;
 import 'package:loja_app/src/pages/home/components/item_tile.dart';
 import 'package:loja_app/src/services/utils_services.dart';

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:loja_app/src/pages/auth/sign_in_screen.dart';
-import 'package:loja_app/src/pages/splash/splash_screen.dart';
 import 'package:loja_app/src/peges_routes/app_pages.dart';
 
 void main() {

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loja_app/src/pages/commom_widgets/app_name_widget.dart';
 import 'package:loja_app/src/pages/commom_widgets/custom_text_field.dart';
-import 'package:loja_app/src/pages/auth/sign_up_screen.dart';
 import 'package:loja_app/src/pages/base/base_screen.dart';
 import 'package:loja_app/src/peges_routes/app_pages.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,101 +80,120 @@ class SignInScreen extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(45)),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Email
-                    CustomTextField(icon: Icons.email, label: 'Email'),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Email
+                      CustomTextField(
+                        icon: Icons.email,
+                        label: 'Email',
+                        validator: (email) {
+                          if (email == null || email.isEmpty) {
+                            return 'Digite seu email';
+                          }
+                          if (!email.isEmail) return 'Digite um email válido';
 
-                    // Senha
-                    CustomTextField(
-                      icon: Icons.lock,
-                      label: 'Senha',
-                      isSecret: true,
-                    ),
+                          return null;
+                        },
+                      ),
 
-                    //Botão entrar
-                    SizedBox(
-                      height: 50,
-                      //width: double.infinity,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                            Colors.green,
-                          ),
-                          shape:
-                              WidgetStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
+                      // Senha
+                      CustomTextField(
+                        icon: Icons.lock,
+                        label: 'Senha',
+                        isSecret: true,
+                        validator: (password) {
+                          if (password == null || password.isEmpty) {
+                            return 'Digite sua senha';
+                          }
+                          if (password.length < 7) {
+                            return 'Senha deve ter no mínimo 7 caracteres';
+                          }
+                          return null;
+                        },
+                      ),
+
+                      //Botão entrar
+                      SizedBox(
+                        height: 50,
+                        //width: double.infinity,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(
+                              Colors.green,
+                            ),
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
                                 ),
+                          ),
+                          onPressed: () {
+                            _formKey.currentState!.validate();
+
+                            //Get.offNamed(PagesRoutes.baseRoutes);
+                          },
+                          child: const Text(
+                            'Entrar',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Esqueci minha senha',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
+
+                      //DIVISOR
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 2,
                               ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (c) {
-                                return BaseScreen();
-                              },
                             ),
-                          );
-                        },
-                        child: const Text(
-                          'Entrar',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Text('OU'),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 2,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Esqueci minha senha',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                    ),
 
-                    //DIVISOR
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey.withAlpha(90),
-                              thickness: 2,
-                            ),
+                      // Botão criar conta
+                      SizedBox(
+                        height: 50,
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Get.toNamed(PagesRoutes.signUpRoute);
+                          },
+                          child: const Text(
+                            'Criar Conta',
+                            style: TextStyle(fontSize: 18),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Text('OU'),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey.withAlpha(90),
-                              thickness: 2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Botão criar conta
-                    SizedBox(
-                      height: 50,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Get.toNamed(PagesRoutes.signUpRoute);
-                        },
-                        child: const Text(
-                          'Criar Conta',
-                          style: TextStyle(fontSize: 18),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
