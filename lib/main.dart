@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
+import 'package:loja_app/src/pages/auth/controller/auth_controller.dart';
 import 'package:loja_app/src/peges_routes/app_pages.dart';
 
 void main() {
+  Get.put(AuthController()); // Inicializa o controlador de autenticação
   runApp(const MyApp());
 }
 

@@ -1,15 +1,19 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loja_app/src/pages/auth/controller/auth_controller.dart';
 import 'package:loja_app/src/pages/commom_widgets/app_name_widget.dart';
 import 'package:loja_app/src/pages/commom_widgets/custom_text_field.dart';
-import 'package:loja_app/src/pages/base/base_screen.dart';
 import 'package:loja_app/src/peges_routes/app_pages.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
+
+  // Controladores de campos de texto
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +91,7 @@ class SignInScreen extends StatelessWidget {
                     children: [
                       // Email
                       CustomTextField(
+                        controller: emailController,
                         icon: Icons.email,
                         label: 'Email',
                         validator: (email) {
@@ -101,6 +106,7 @@ class SignInScreen extends StatelessWidget {
 
                       // Senha
                       CustomTextField(
+                        controller: passwordController,
                         icon: Icons.lock,
                         label: 'Senha',
                         isSecret: true,
@@ -119,27 +125,56 @@ class SignInScreen extends StatelessWidget {
                       SizedBox(
                         height: 50,
                         //width: double.infinity,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                              Colors.green,
-                            ),
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                        child: GetX<AuthController>(
+                          builder: (authController) {
+                            return ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(
+                                  Colors.green,
+                                ),
+                                shape: WidgetStateProperty.all<
+                                  RoundedRectangleBorder
+                                >(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18),
                                   ),
                                 ),
-                          ),
-                          onPressed: () {
-                            _formKey.currentState!.validate();
+                              ),
+                              onPressed:
+                                  authController.isLoading.value
+                                      ? null
+                                      : () {
+                                        FocusScope.of(context).unfocus();
 
-                            //Get.offNamed(PagesRoutes.baseRoutes);
+                                        if (_formKey.currentState!.validate()) {
+                                          String email = emailController.text;
+                                          String password =
+                                              passwordController.text;
+
+                                          authController.signIn(
+                                            email: email,
+                                            password: password,
+                                          );
+                                        } else {
+                                          print('Campos inválidos');
+                                        }
+
+                                        //Get.offNamed(PagesRoutes.baseRoutes);
+                                      },
+                              child:
+                                  authController.isLoading.value
+                                      ? CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                      : const Text(
+                                        'Entrar',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                            );
                           },
-                          child: const Text(
-                            'Entrar',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
                         ),
                       ),
                       Align(
